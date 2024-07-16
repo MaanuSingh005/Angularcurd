@@ -1,0 +1,147 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <!-- User List -->
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <div class="row">
+                        <div class="col-6 text-white">
+                            <h6 class="p-2">User List</h6>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-info" (click)="onResultForm(userForm)" >Add User</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>DOJ</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of userList; track $index) {
+                            <tr>
+                                <td> {{item.department}} </td>
+                                <td> {{item.name}} </td>
+                                <td> {{item.gender}} </td>
+                                <td> {{item.mobile}} </td>
+                                <td> {{item.email}} </td>
+                                <td> {{item.DOJ}} </td>
+                                <td> {{item.status? 'Active' : 'Inactive'}} </td>
+                                <td class="text-center">
+                                    <i class="fa fa-edit text-primary" (click)="onEdit(item)"></i>
+                                    <i class="fa fa-trash text-danger" (click)="onDelete(item.id)"></i>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <!-- User Form -->
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <div class="row">
+                        <div class="col-6 text-white">
+                            <h6 class="p-2">{{ editMode? 'Update User': 'Add User'}}</h6>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-info" (click)="onResultForm(userForm)">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Form content goes here -->
+                    <form class="row g-3" #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+                        <div class="col-6">
+                            <label for="department" class="form-label">Department</label>
+                            <select class="form-select" required [(ngModel)]="user.department" name="department" id="department">
+                                <option value="">Select Department</option>
+                                @for ( item of departmentList; track $index )
+                                {
+                                    <option>{{ item }}</option>
+                                }
+                            </select>
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" required placeholder="Name" [(ngModel)]="user.name" id="name">
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="mobile" class="form-label">Mobile</label>
+                            <input type="text" class="form-control" name="mobile" required placeholder="Mobile" [(ngModel)]="user.mobile" id="mobile">
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required placeholder="Email" [(ngModel)]="user.email" id="email">
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="DOJ" class="form-label">Date of Joining</label>
+                            <input type="date" class="form-control" name="DOJ" required placeholder="DOJ" [(ngModel)]="user.DOJ" id="DOJ">
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" required [(ngModel)]="user.gender" name="gender" id="gender">
+                                <option value="">Select Gender</option>
+                                <option *ngFor="let gender of genderList">{{gender}}</option>
+                                @for ( item of genderList; track $index )
+                                {
+                                    <option>{{ item }}</option>
+                                }
+                            </select>
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="city" class="form-label">City</label>
+                            <select class="form-select" required [(ngModel)]="user.city" name="city" id="city">
+                                <option value="">Select City</option>
+                                <option *ngFor="let city of cityList">{{city}}</option>
+                                @for ( item of cityList; track $index )
+                                {
+                                    <option>{{ item }}</option>
+                                }
+                            </select>
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="salary" class="form-label">Salary</label>
+                            <input type="number" class="form-control" name="salary" required placeholder="Salary" [(ngModel)]="user.salary" id="salary">
+                            
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" cols="5" rows="3" name="address" required placeholder="Address" [(ngModel)]="user.address" id="address"></textarea>
+                            
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="status" [(ngModel)]="user.status" id="status">
+                                <label class="form-check-label" for="status">Active?</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-info w-100" type="submit" [disabled]="userForm.invalid">{{editMode? 'Update': 'Save'}}</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
